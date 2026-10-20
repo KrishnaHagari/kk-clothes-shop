@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KK Clothes - Inventory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- CSS ಡಿಸೈನ್ ಮಾಡಲು ಸುಲಭವಾಗುವಂತೆ ಒಂದು div ಕಂಟೇನರ್ -->
+    <div class="card">
+        <h2>KK CLOTHES</h2>
+        <p class="subtitle">Add New Stock</p>
+
+        <form action="#" method="POST">
+            
+            <div class="form-group">
+                <label for="item_name">Item Name</label>
+                <input type="text" id="item_name" name="item_name" 
+                placeholder="Cotton Slim Fit Shirt" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="Men's Wear">Men's Wear</option>
+                    <option value="Women's Wear">Women's Wear</option>
+                    <option value="Kids Wear">Kids Wear</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="size">Size</label>
+                <select id="size" name="size">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                    <option value="Free Size">Free Size</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cost_price">Cost Price (₹)</label>
+                <input type="number" id="cost_price" name="cost_price" 
+                placeholder="CostPrice" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="selling_price">Selling Price (₹)</label>
+                <input type="number" id="selling_price" name="selling_price" 
+                placeholder="sellingPrice" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" name="quantity" 
+                placeholder="Quantity" min="1" required>
+            </div>
+
+            <button type="submit">Add to Inventory</button>
+
+        </form>
+    </div>
+
+</body>
+</html>
