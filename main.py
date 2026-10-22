@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from database import add_product_to_db
 
 app = FastAPI(title="KK Clothes Shop")
 
@@ -30,6 +31,8 @@ def add_product(
     quantity: int = Form(...)
 ):
     print(f"\n>>> RECEIVED: {item_name} | {category} | Qty: {quantity} <<<", flush=True)
+    # Add product to the database
+    add_product_to_db(item_name, category, size, cost_price, selling_price, quantity)
 
     return templates.TemplateResponse(
         request=request,
