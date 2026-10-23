@@ -65,5 +65,37 @@
         </form>
     </div>
 
+    <div class="card">
+        <h3>Current Stock</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Size</th>
+                    <th>Cost</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Products will be populated here by the backend -->
+                 {% for p in products%}
+                 <tr>
+                    <td>{{ p['id'] }}</td>
+                    <td>{{ p['item_name'] }}</td>
+                    <td>{{ p['category'] }}</td>
+                    <td>{{ p['size'] }}</td>
+                    <td>{{ p['cost_price'] }}</td>
+                    <td>{{ p['selling_price'] }}</td>
+                    <td>{{ p['quantity'] }}</td>
+                 </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </body>
 </html>

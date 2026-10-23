@@ -2,6 +2,7 @@ import sqlite3
 DATABASE_NAME = "inventory.db"
 def get_db_connection():
     conn = sqlite3.connect(DATABASE_NAME)
+    conn.row_factory = sqlite3.Row  # ಈ ಸಾಲು ಇರಲೇಬೇಕು!
     return conn
 
 def init_db():
@@ -29,6 +30,14 @@ def add_product_to_db(item_name,category,size,cost_price,selling_price,quantity)
     """, (item_name, category, size, cost_price, selling_price, quantity))
     conn.commit()
     conn.close()
+
+def get_all_products():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM products ORDER BY id DESC")
+    products = cursor.fetchall()
+    conn.close()
+    return products
 
 if __name__ == "__main__":
     init_db()
