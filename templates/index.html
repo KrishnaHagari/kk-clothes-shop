@@ -61,9 +61,23 @@
             </div>
 
             <button type="submit">Add to Inventory</button>
-
-        </form>
+        <!-- 3 ಸಮ್ಮರಿ ಕಾರ್ಡ್‌ಗಳು -->
+    <div class="summary-container">
+        <div class="summary-card">
+            <h4>Total Items</h4>
+            <p>{{ total_items }}</p>
+        </div>
+        <div class="summary-card">
+            <h4>Total Stock (Qty)</h4>
+            <p>{{ total_quantity }}</p>
+        </div>
+        <div class="summary-card">
+            <h4>Total Investment</h4>
+            <p>₹{{ total_investment }}</p>
+        </div>
     </div>
+    
+    </form>
 
     <div class="card">
         <h3>Current Stock</h3>

@@ -14,12 +14,19 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/")
 def home(request: Request):
     products = get_all_products()
+    total_items = len(products)
+    total_quantity = sum(p['quantity'] for p in products)
+    total_investment = sum(p['cost_price'] * p['quantity'] for p in products)
+        
     return templates.TemplateResponse(
         request=request, 
         name="index.html", 
-        context={"message": None}
-    )
-
+        context={"products": products,
+                 "total_items": total_items,
+                 "total_quantity": total_quantity,
+                 "total_investment": round(total_investment,2)
+                 }
+    )     
 
 @app.post("/add-product")
 def add_product(
@@ -35,8 +42,18 @@ def add_product(
     # Add product to the database
     add_product_to_db(item_name, category, size, cost_price, selling_price, quantity)
     products = get_all_products()
+    total_items = len(products)
+    total_quantity = sum(p["quantity"] for p in products)
+    total_investment = sum(p["cost_price"] * p["quantity"] for p in products)
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"message": f"'{item_name}' added successfully!","products": products},
+        context={
+            "message": f"'{item_name}' added successfully!",
+            "products": products,
+            "total_items": total_items,
+            "total_quantity": total_quantity,
+            "total_investment": round(total_investment, 2),
+        },
     )
