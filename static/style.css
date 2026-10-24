@@ -134,3 +134,28 @@ tr:hover {
     font-weight: 700;
     color: white;
 }
+
+.btn_sell {
+    background-color:green;
+    color:white;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn_sell:hover {
+    background-color: darkgreen;
+}
+
+.badge_out {
+    display: inline-block;
+    background-color: red;
+    color: white;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 12px;
+}

@@ -39,6 +39,13 @@ def get_all_products():
     conn.close()
     return products
 
+def sell_product(product_id:int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE products SET quantity = quantity - 1 WHERE id = ?", (product_id,))
+    conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
     init_db()
     print("Database and Table created successfully")

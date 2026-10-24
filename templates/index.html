@@ -105,6 +105,15 @@
                     <td>{{ p['cost_price'] }}</td>
                     <td>{{ p['selling_price'] }}</td>
                     <td>{{ p['quantity'] }}</td>
+                    <td>
+                        {% if p.quantity > 0 %}
+                        <form action = "/sell/{{ p['id'] }}" method = "post" style = "margin: 0;">
+                            <button type = "submit" class="btn_sell">Sell</button>
+                        </form>
+                        {% else %}
+                        <span class="badge_out">Sold Out</span>
+                        {% endif %}
+                    </td>
                  </tr>
                     {% endfor %}
             </tbody>
