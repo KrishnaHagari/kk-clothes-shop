@@ -31,13 +31,27 @@ def add_product_to_db(item_name,category,size,cost_price,selling_price,quantity)
     conn.commit()
     conn.close()
 
-def get_all_products():
+def get_all_products(search: str = "", category: str = ""):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM products ORDER BY id DESC")
-    products = cursor.fetchall()
+
+    query = "SELECT * FROM products WHERE 1=1"
+    params = []
+
+    #(Search filter)
+    if search:
+        query += " AND item_name LIKE ?"
+        params.append(f"%{search}%")
+
+    #(Category filter)
+    if category and category != "All":
+        query += " AND category = ?"
+        params.append(category)
+
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
     conn.close()
-    return products
+    return [dict(row) for row in rows]
 
 def sell_product(product_id:int):
     conn = get_db_connection()

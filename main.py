@@ -12,23 +12,26 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
-# 1. GET Route: ಫಾರ್ಮ್ ಡಿಸ್‌ಪ್ಲೇ ಮಾಡಲು
 @app.get("/")
-def home(request: Request):
-    products = get_all_products()
+def home(request: Request, search: str = "", category: str = ""):
+    products = get_all_products(search=search, category=category)
+
     total_items = len(products)
-    total_quantity = sum(p['quantity'] for p in products)
-    total_investment = sum(p['cost_price'] * p['quantity'] for p in products)
-        
+    total_quantity = sum(p["quantity"] for p in products)
+    total_investment = sum(p["cost_price"] * p["quantity"] for p in products)
+
     return templates.TemplateResponse(
-        request=request, 
-        name="index.html", 
-        context={"products": products,
-                 "total_items": total_items,
-                 "total_quantity": total_quantity,
-                 "total_investment": round(total_investment,2)
-                 }
-    )     
+        request=request,
+        name="index.html",
+        context={
+            "products": products,
+            "total_items": total_items,
+            "total_quantity": total_quantity,
+            "total_investment": round(total_investment, 2),
+            "search": search,  # Keep the search term in the search bar
+            "category": category,      # Keep the selected category in the dropdown
+        },
+    )
 
 @app.post("/add-product")
 def add_product(

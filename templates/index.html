@@ -81,7 +81,29 @@
 
     <div class="card">
         <h3>Current Stock</h3>
+        <!-- Search & Category Filter Bar -->
+        <form method="get" action="/" class="filter-bar">
+            <!-- 1. Search Box -->
+            <input 
+                type="text" 
+                name="search" 
+                placeholder="ಬಟ್ಟೆಯ ಹೆಸರು ಹುಡುಕಿ (Search item)..." 
+                value="{{ search }}"
+                class="filter-input"
+            >
 
+            <!-- 2. Category Dropdown -->
+            <select name="category" class="filter-select">
+                <option value="All" {% if category == 'All' or not category %}selected{% endif %}>(All Categories)</option>
+                <option value="Men's Wear" {% if category == "Men's Wear" %}selected{% endif %}>Men's Wear</option>
+                <option value="Women's Wear" {% if category == "Women's Wear" %}selected{% endif %}>Women's Wear</option>
+                <option value="Kids Wear" {% if category == "Kids Wear" %}selected{% endif %}>Kids Wear</option>
+            </select>
+
+            <!-- 3. Search & Reset Buttons -->
+            <button type="submit" class="btn-filter">Search</button>
+            <a href="/" class="btn-reset">Reset</a>
+        </form>
         <table>
             <thead>
                 <tr>
