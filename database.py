@@ -46,6 +46,13 @@ def sell_product(product_id:int):
     conn.commit()
     conn.close()
 
+def delete_product(product:int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM products WHERE id = ?", (product,))
+    conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
     init_db()
     print("Database and Table created successfully")

@@ -106,13 +106,24 @@
                     <td>{{ p['selling_price'] }}</td>
                     <td>{{ p['quantity'] }}</td>
                     <td>
-                        {% if p.quantity > 0 %}
+                        {{p['quantity']}}
+                        {% if p.quantity > 0 and p.quantity <= 3 %}
+                        <span class = "badge_low">Low Stock</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                        {% if p.quantity > 0%}
                         <form action = "/sell/{{ p['id'] }}" method = "post" style = "margin: 0;">
                             <button type = "submit" class="btn_sell">Sell</button>
                         </form>
                         {% else %}
                         <span class="badge_out">Sold Out</span>
                         {% endif %}
+                        <form action = "/delete/{{ p['id'] }}" method = "post" style = "margin: 0;" onsubmit="return confirm('Are you sure?');">
+                            <button type = "submit" class = "btn_delete">Delete</button>
+                        </form>
+                        </div>
                     </td>
                  </tr>
                     {% endfor %}

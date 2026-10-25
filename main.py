@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from database import add_product_to_db, get_all_products, sell_product
+from database import add_product_to_db, get_all_products, sell_product , delete_product
 from database import add_product_to_db, get_all_products
 
 app = FastAPI(title="KK Clothes Shop")
@@ -63,4 +63,9 @@ def add_product(
 @app.post("/sell/{product_id}")
 def sell(product_id: int):
     sell_product(product_id)
+    return RedirectResponse(url ="/", status_code=303)
+
+@app.post("/delete/{product_id}")
+def delete(product_id: int):
+    delete_product(product_id)
     return RedirectResponse(url ="/", status_code=303)

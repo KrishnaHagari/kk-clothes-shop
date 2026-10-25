@@ -114,6 +114,7 @@ tr:hover {
     flex: 1;
     background: #ffffff;
     padding: 16px 20px;
+    margin-top: 3px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-left: 4px solid #2563eb;
@@ -158,4 +159,54 @@ tr:hover {
     font-size: 12px;
     font-weight: 600;
     border-radius: 12px;
+}
+
+.badge_low {
+    display: inline-block;
+    background-color: orange;
+    color: white;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 12px;
+    margin-left: 6px;
+    border: 1px solid #fde68a;
+}
+
+/* Sell and Delete buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Delete button style */
+.btn-delete {
+    background-color: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* mouse hover effect */
+.btn-delete:hover {
+    background-color: #dc2626;
+}
+
+/*low stock badge*/
+.badge-low {
+    display: inline-block;
+    background-color: #fef3c7;
+    color: #b45309;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 12px;
+    margin-left: 6px;
+    border: 1px solid #fde68a;
 }
