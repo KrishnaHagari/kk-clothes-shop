@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from database import add_product_to_db, get_all_products, sell_product , delete_product
+from database import add_product_to_db, get_all_products, sell_product , delete_product,get_sales_summary
 from database import add_product_to_db, get_all_products
 
 app = FastAPI(title="KK Clothes Shop")
@@ -20,6 +20,8 @@ def home(request: Request, search: str = "", category: str = ""):
     total_quantity = sum(p["quantity"] for p in products)
     total_investment = sum(p["cost_price"] * p["quantity"] for p in products)
 
+    sales_data = get_sales_summary()
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -28,6 +30,8 @@ def home(request: Request, search: str = "", category: str = ""):
             "total_items": total_items,
             "total_quantity": total_quantity,
             "total_investment": round(total_investment, 2),
+            "total_sales_count": sales_data["total_sales_count"],
+            "total_profit": round(sales_data["total_profit"], 2),
             "search": search,  # Keep the search term in the search bar
             "category": category,      # Keep the selected category in the dropdown
         },

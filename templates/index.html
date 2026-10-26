@@ -61,19 +61,31 @@
             </div>
 
             <button type="submit">Add to Inventory</button>
-        <!-- 3 ಸಮ್ಮರಿ ಕಾರ್ಡ್‌ಗಳು -->
-    <div class="summary-container">
-        <div class="summary-card">
-            <h4>Total Items</h4>
-            <p>{{ total_items }}</p>
-        </div>
-        <div class="summary-card">
-            <h4>Total Stock (Qty)</h4>
-            <p>{{ total_quantity }}</p>
-        </div>
-        <div class="summary-card">
-            <h4>Total Investment</h4>
-            <p>₹{{ total_investment }}</p>
+
+    <!-- Summary Dashboard Cards -->
+        <div class="summary-cards">
+            <div class="card">
+                <h3>Total Items</h3>
+                <p class="card-value">{{ total_items }}</p>
+            </div>
+            <div class="card">
+                <h3>Current Stock</h3>
+                <p class="card-value">{{ total_quantity }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Investment</h3>
+                <p class="card-value">₹ {{ total_investment }}</p>
+            </div>
+    
+            <div class="card card-sales">
+                <h3>Total Sales</h3>
+                <p class="card-value">{{ total_sales_count }}</p>
+            </div>
+            <!--(Profit) -->
+            <div class="card card-profit">
+                <h3>Total Profit</h3>
+                <p class="card-value">₹ {{ total_profit }}</p>
+            </div>
         </div>
     </div>
     

@@ -16,7 +16,20 @@ def init_db():
     size TEXT NOT NULL,
     cost_price REAL NOT NULL,
     selling_price REAL NOT NULL,
-    quantity INTEGER NOT NULL)
+    quantity INTEGER NOT NULL
+    )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS sales (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            product_id INTEGER,
+            item_name TEXT,
+            cost_price REAL,
+            selling_price REAL,
+            profit REAL,
+            sold_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
     """)
     conn.commit()
     conn.close()
@@ -67,7 +80,44 @@ def delete_product(product:int):
     conn.commit()
     conn.close()
 
+def sell_product(product_id:int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT quantity FROM products WHERE id = ?", (product_id,))
+    product = cursor.fetchone()
+
+    if product and product["quantity"] > 0:
+        sell = product['selling_price']
+        cost = product['cost_price']
+        profit = sell - cost
+
+        cursor.execute("UPDATE products SET QUANTITY = QUANTITY - 1 WHERE id =?", (product_id))
+
+        cursor.execute("INSERT INTO sales(product_id,item_name,cost_price,selling_price,profit) VALUES(?, ?, ?, ?, ?)", (product_id, product['item_name'], cost, sell, profit))
+
+        conn.commit()
+    conn.close()                      
+
 if __name__ == "__main__":
     init_db()
     print("Database and Table created successfully")
+
+def get_sales_summary():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT 
+            COUNT(*) as total_sales_count,
+            COALESCE(SUM(profit), 0) as total_profit
+        FROM sales
+    """)
+    row = cursor.fetchone()
+    conn.close()
+
+    return {
+        "total_sales_count": row["total_sales_count"],
+        "total_profit": round(row["total_profit"], 2)
+    }
+init_db()
 

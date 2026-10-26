@@ -290,3 +290,21 @@ tr:hover {
     background-color: #e5e7eb;
     color: #111827;
 }
+
+/* Total Profit Card */
+.card-profit {
+    border-top: 4px solid #10b981;
+    background: linear-gradient(to bottom, #f0fdf4, #ffffff);
+}
+
+.card-profit .card-value {
+    color: #047857;
+}
+
+.card-sales {
+    border-top: 4px solid #3b82f6;
+}
+
+.card-sales .card-value {
+    color: #1d4ed8;
+}
