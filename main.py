@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from database import add_product_to_db, get_all_products, sell_product , delete_product,get_sales_summary
+from database import add_product_to_db, get_all_products, sell_product , delete_product,get_sales_summary,get_recent_sales,restock_product
 from database import add_product_to_db, get_all_products
 
 app = FastAPI(title="KK Clothes Shop")
@@ -22,6 +22,10 @@ def home(request: Request, search: str = "", category: str = ""):
 
     sales_data = get_sales_summary()
 
+    recent_sales = get_recent_sales(limit = 10)
+
+    restock = restock_product(product_id=1, qty=5)  # Example: Restock product with ID 1 by 5 units
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -31,7 +35,9 @@ def home(request: Request, search: str = "", category: str = ""):
             "total_quantity": total_quantity,
             "total_investment": round(total_investment, 2),
             "total_sales_count": sales_data["total_sales_count"],
+            "recent_sales": recent_sales,
             "total_profit": round(sales_data["total_profit"], 2),
+            "restock": restock,  # Include the restock information in the context
             "search": search,  # Keep the search term in the search bar
             "category": category,      # Keep the selected category in the dropdown
         },
@@ -76,3 +82,8 @@ def sell(product_id: int):
 def delete(product_id: int):
     delete_product(product_id)
     return RedirectResponse(url ="/", status_code=303)
+
+@app.post("/restock/{product_id}")
+def restock_item(product_id: int):
+    restock_product(product_id, qty=1)
+    return RedirectResponse(url="/", status_code=303)

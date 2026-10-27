@@ -308,3 +308,75 @@ tr:hover {
 .card-sales .card-value {
     color: #1d4ed8;
 }
+
+/* Sales History Container */
+.sales-history-section {
+    margin-top: 40px;
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.sales-history-section h2 {
+    font-size: 18px;
+    color: #1f2937;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 8px;
+}
+
+/* Sales Table Specifics */
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sales-table th, .sales-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+
+.sales-table th {
+    background-color: #f9fafb;
+    color: #4b5563;
+    font-weight: 600;
+}
+
+/* Profit Green Badge Text */
+.profit-highlight {
+    color: #059669;
+    font-weight: 700;
+}
+
+/* Sale Timestamp */
+.sale-date {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.no-sales {
+    color: #9ca3af;
+    font-style: italic;
+    padding: 12px 0;
+}
+
+/* Quick Restock (+ Stock) Button */
+.btn-restock {
+    background-color: #0284c7;
+    color: #ffffff;
+    border: none;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-restock:hover {
+    background-color: #0369a1;
+}

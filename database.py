@@ -1,25 +1,30 @@
 import sqlite3
+
 DATABASE_NAME = "inventory.db"
+
 def get_db_connection():
     conn = sqlite3.connect(DATABASE_NAME)
-    conn.row_factory = sqlite3.Row  # ಈ ಸಾಲು ಇರಲೇಬೇಕು!
+    conn.row_factory = sqlite3.Row  # ಡಿಕ್ಷನರಿ ರೀತಿಯಲ್ಲಿ ಡೇಟಾ ಪಡೆಯಲು
     return conn
 
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
+
+    # 1. Products ಟೇಬಲ್
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS products(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    item_name TEXT NOT NULL,
-    category TEXT NOT NULL,
-    size TEXT NOT NULL,
-    cost_price REAL NOT NULL,
-    selling_price REAL NOT NULL,
-    quantity INTEGER NOT NULL
-    )
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            item_name TEXT NOT NULL,
+            category TEXT NOT NULL,
+            size TEXT NOT NULL,
+            cost_price REAL NOT NULL,
+            selling_price REAL NOT NULL,
+            quantity INTEGER NOT NULL
+        )
     """)
 
+    # 2. Sales 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS sales (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,13 +39,34 @@ def init_db():
     conn.commit()
     conn.close()
 
-def add_product_to_db(item_name,category,size,cost_price,selling_price,quantity):
+def add_product_to_db(item_name, category, size, cost_price, selling_price, quantity):
     conn = get_db_connection()
     cursor = conn.cursor()
+
+    # Check if the product already exists (case-insensitive and trimmed)
     cursor.execute("""
-    INSERT INTO products(item_name, category, size, cost_price, selling_price, quantity)
-    VALUES(?,?,?,?,?,?)
-    """, (item_name, category, size, cost_price, selling_price, quantity))
+        SELECT id, quantity FROM products 
+        WHERE LOWER(TRIM(item_name)) = LOWER(TRIM(?)) 
+          AND LOWER(TRIM(category)) = LOWER(TRIM(?)) 
+          AND LOWER(TRIM(size)) = LOWER(TRIM(?))
+    """, (item_name, category, size))
+    existing_item = cursor.fetchone()
+
+    if existing_item:
+        # add the new quantity to the existing quantity
+        new_quantity = existing_item["quantity"] + quantity
+        cursor.execute("""
+            UPDATE products 
+            SET quantity = ?, cost_price = ?, selling_price = ?
+            WHERE id = ?
+        """, (new_quantity, cost_price, selling_price, existing_item["id"]))
+    else:
+        
+        cursor.execute("""
+            INSERT INTO products (item_name, category, size, cost_price, selling_price, quantity)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (item_name, category, size, cost_price, selling_price, quantity))
+
     conn.commit()
     conn.close()
 
@@ -51,14 +77,16 @@ def get_all_products(search: str = "", category: str = ""):
     query = "SELECT * FROM products WHERE 1=1"
     params = []
 
-    #(Search filter)
+    # Search filter
+    search = search.strip() if search else ""
     if search:
-        query += " AND item_name LIKE ?"
+        query += " AND LOWER(item_name) LIKE LOWER(?)"
         params.append(f"%{search}%")
 
-    #(Category filter)
-    if category and category != "All":
-        query += " AND category = ?"
+    # Category filter
+    category = category.strip() if category else ""
+    if category and category.lower() != "all":
+        query += " AND LOWER(TRIM(category)) = LOWER(TRIM(?))"
         params.append(category)
 
     cursor.execute(query, params)
@@ -66,41 +94,44 @@ def get_all_products(search: str = "", category: str = ""):
     conn.close()
     return [dict(row) for row in rows]
 
-def sell_product(product_id:int):
+def sell_product(product_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE products SET quantity = quantity - 1 WHERE id = ?", (product_id,))
-    conn.commit()
-    conn.close()
 
-def delete_product(product:int):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM products WHERE id = ?", (product,))
-    conn.commit()
-    conn.close()
-
-def sell_product(product_id:int):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT quantity FROM products WHERE id = ?", (product_id,))
+    # Check if the product exists and has quantity > 0
+    cursor.execute("SELECT * FROM products WHERE id = ?", (product_id,))
     product = cursor.fetchone()
 
     if product and product["quantity"] > 0:
-        sell = product['selling_price']
-        cost = product['cost_price']
-        profit = sell - cost
+        cost = float(product["cost_price"])
+        selling = float(product["selling_price"])
+        profit = round(selling - cost, 2)
 
-        cursor.execute("UPDATE products SET QUANTITY = QUANTITY - 1 WHERE id =?", (product_id))
+        # Update the product quantity and insert into sales table in a single transaction
+        cursor.execute(
+            "UPDATE products SET quantity = quantity - 1 WHERE id = ?",
+            (product_id,)
+        )
 
-        cursor.execute("INSERT INTO sales(product_id,item_name,cost_price,selling_price,profit) VALUES(?, ?, ?, ?, ?)", (product_id, product['item_name'], cost, sell, profit))
+        
+        cursor.execute(
+            """
+            INSERT INTO sales (product_id, item_name, cost_price, selling_price, profit)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (product_id, product["item_name"], cost, selling, profit)
+        )
 
         conn.commit()
-    conn.close()                      
 
-if __name__ == "__main__":
-    init_db()
-    print("Database and Table created successfully")
+    conn.close()
+
+def delete_product(product_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM products WHERE id = ?", (product_id,))
+    conn.commit()
+    conn.close()
 
 def get_sales_summary():
     conn = get_db_connection()
@@ -119,5 +150,31 @@ def get_sales_summary():
         "total_sales_count": row["total_sales_count"],
         "total_profit": round(row["total_profit"], 2)
     }
-init_db()
 
+def get_recent_sales(limit: int = 10):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, item_name, cost_price, selling_price, profit, sold_at 
+        FROM sales 
+        ORDER BY id DESC 
+        LIMIT ?
+    """, (limit,))
+
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+def restock_product(product_id: int, qty: int = 1):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE products SET quantity = quantity + ? WHERE id = ?",
+        (qty, product_id)
+    )
+    conn.commit()
+    conn.close()
+
+# Initialize the database
+init_db()
