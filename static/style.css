@@ -363,20 +363,21 @@ tr:hover {
     padding: 12px 0;
 }
 
-/* Quick Restock (+ Stock) Button */
-.btn-restock {
-    background-color: #0284c7;
+
+/* Edit Button Style */
+.btn-edit {
+    display: inline-block;
+    background-color: #f59e0b;
     color: #ffffff;
-    border: none;
-    padding: 4px 8px;
+    text-decoration: none;
+    padding: 6px 10px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 4px;
-    cursor: pointer;
     margin-right: 4px;
     transition: background-color 0.2s ease;
 }
 
-.btn-restock:hover {
-    background-color: #0369a1;
+.btn-edit:hover {
+    background-color: #d97706;
 }

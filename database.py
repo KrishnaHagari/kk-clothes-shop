@@ -166,13 +166,25 @@ def get_recent_sales(limit: int = 10):
     conn.close()
     return [dict(row) for row in rows]
 
-def restock_product(product_id: int, qty: int = 1):
+def get_product_by_id(product_id: int):
+     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute(
-        "UPDATE products SET quantity = quantity + ? WHERE id = ?",
-        (qty, product_id)
-    )
+    cursor.execute("SELECT * FROM products WHERE id = ?", (product_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return dict(row) if row else None
+
+
+def update_product_in_db(product_id: int, item_name: str, category: str, size: str, cost_price: float, selling_price: float, quantity: int):
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE products 
+        SET item_name = ?, category = ?, size = ?, cost_price = ?, selling_price = ?, quantity = ?
+        WHERE id = ?
+    """, (item_name, category, size, cost_price, selling_price, quantity, product_id))
     conn.commit()
     conn.close()
 

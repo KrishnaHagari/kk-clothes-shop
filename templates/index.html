@@ -8,17 +8,15 @@
 </head>
 <body>
 
-    <!-- CSS ಡಿಸೈನ್ ಮಾಡಲು ಸುಲಭವಾಗುವಂತೆ ಒಂದು div ಕಂಟೇನರ್ -->
+    <!-- 1. Add New Stock Form Card -->
     <div class="card">
         <h2>KK CLOTHES</h2>
         <p class="subtitle">Add New Stock</p>
 
         <form action="/add-product" method="POST">
-            
             <div class="form-group">
                 <label for="item_name">Item Name</label>
-                <input type="text" id="item_name" name="item_name" 
-                placeholder="Cotton Slim Fit Shirt" required>
+                <input type="text" id="item_name" name="item_name" placeholder="Cotton Slim Fit Shirt" required>
             </div>
 
             <div class="form-group">
@@ -44,58 +42,53 @@
 
             <div class="form-group">
                 <label for="cost_price">Cost Price (₹)</label>
-                <input type="number" id="cost_price" name="cost_price" 
-                placeholder="CostPrice" min="0" required>
+                <input type="number" step="0.01" id="cost_price" name="cost_price" placeholder="Cost Price" min="0" required>
             </div>
 
             <div class="form-group">
                 <label for="selling_price">Selling Price (₹)</label>
-                <input type="number" id="selling_price" name="selling_price" 
-                placeholder="sellingPrice" min="0" required>
+                <input type="number" step="0.01" id="selling_price" name="selling_price" placeholder="Selling Price" min="0" required>
             </div>
 
             <div class="form-group">
                 <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" name="quantity" 
-                placeholder="Quantity" min="1" required>
+                <input type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" required>
             </div>
 
             <button type="submit">Add to Inventory</button>
+        </form>
+    </div>
 
-    <!-- Summary Dashboard Cards -->
-        <div class="summary-cards">
-            <div class="card">
-                <h3>Total Items</h3>
-                <p class="card-value">{{ total_items }}</p>
-            </div>
-            <div class="card">
-                <h3>Current Stock</h3>
-                <p class="card-value">{{ total_quantity }}</p>
-            </div>
-            <div class="card">
-                <h3>Total Investment</h3>
-                <p class="card-value">₹ {{ total_investment }}</p>
-            </div>
-    
-            <div class="card card-sales">
-                <h3>Total Sales</h3>
-                <p class="card-value">{{ total_sales_count }}</p>
-            </div>
-            <!--(Profit) -->
-            <div class="card card-profit">
-                <h3>Total Profit</h3>
-                <p class="card-value">₹ {{ total_profit }}</p>
-            </div>
+    <!-- 2. Summary Dashboard Cards -->
+    <div class="summary-cards">
+        <div class="card">
+            <h3>Total Items</h3>
+            <p class="card-value">{{ total_items }}</p>
+        </div>
+        <div class="card">
+            <h3>Current Stock</h3>
+            <p class="card-value">{{ total_quantity }}</p>
+        </div>
+        <div class="card">
+            <h3>Total Investment</h3>
+            <p class="card-value">₹ {{ total_investment }}</p>
+        </div>
+        <div class="card card-sales">
+            <h3>Total Sales</h3>
+            <p class="card-value">{{ total_sales_count }}</p>
+        </div>
+        <div class="card card-profit">
+            <h3>Total Profit</h3>
+            <p class="card-value">₹ {{ total_profit }}</p>
         </div>
     </div>
-    
-    </form>
 
+    <!-- 3. Current Stock & Inventory Table Card -->
     <div class="card">
         <h3>Current Stock</h3>
+
         <!-- Search & Category Filter Bar -->
         <form method="get" action="/" class="filter-bar">
-            <!-- 1. Search Box -->
             <input 
                 type="text" 
                 name="search" 
@@ -104,18 +97,18 @@
                 class="filter-input"
             >
 
-            <!-- 2. Category Dropdown -->
-            <select name="category" class="filter-select">
+            <select name="category" class="filter-select" onchange="this.form.submit()">
                 <option value="All" {% if category == 'All' or not category %}selected{% endif %}>(All Categories)</option>
                 <option value="Men's Wear" {% if category == "Men's Wear" %}selected{% endif %}>Men's Wear</option>
                 <option value="Women's Wear" {% if category == "Women's Wear" %}selected{% endif %}>Women's Wear</option>
                 <option value="Kids Wear" {% if category == "Kids Wear" %}selected{% endif %}>Kids Wear</option>
             </select>
 
-            <!-- 3. Search & Reset Buttons -->
             <button type="submit" class="btn-filter">Search</button>
             <a href="/" class="btn-reset">Reset</a>
         </form>
+
+        <!-- Inventory Table -->
         <table>
             <thead>
                 <tr>
@@ -123,53 +116,55 @@
                     <th>Item Name</th>
                     <th>Category</th>
                     <th>Size</th>
-                    <th>Cost</th>
-                    <th>Price</th>
+                    <th>Cost (₹)</th>
+                    <th>Price (₹)</th>
                     <th>Quantity</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Products will be populated here by the backend -->
-                 {% for p in products%}
-                 <tr>
-                    <td>{{ p['id'] }}</td>
-                    <td>{{ p['item_name'] }}</td>
+                {% for p in products %}
+                <tr>
+                    <td>#{{ p['id'] }}</td>
+                    <td><strong>{{ p['item_name'] }}</strong></td>
                     <td>{{ p['category'] }}</td>
                     <td>{{ p['size'] }}</td>
-                    <td>{{ p['cost_price'] }}</td>
-                    <td>{{ p['selling_price'] }}</td>
-                    <td>{{ p['quantity'] }}</td>
+                    <td>₹ {{ p['cost_price'] }}</td>
+                    <td>₹ {{ p['selling_price'] }}</td>
                     <td>
-                        {{p['quantity']}}
-                        {% if p.quantity > 0 and p.quantity <= 3 %}
-                        <span class = "badge_low">Low Stock</span>
+                        {{ p['quantity'] }}
+                        {% if p['quantity'] > 0 and p['quantity'] <= 3 %}
+                            <span class="badge_low">Low Stock</span>
+                        {% elif p['quantity'] == 0 %}
+                            <span class="badge_out">Sold Out</span>
                         {% endif %}
                     </td>
                     <td>
-                        <div class="action-buttons">
-                        {% if p.quantity > 0%}
-                        <form action = "/sell/{{ p['id'] }}" method = "post" style = "margin: 0;">
-                            <button type = "submit" class="btn_sell">Sell</button>
-                        </form>
-                        {% else %}
-                        <span class="badge_out">Sold Out</span>
-                        {% endif %}
-                        <form action = "/delete/{{ p['id'] }}" method = "post" style = "margin: 0;" onsubmit="return confirm('Are you sure?');">
-                            <button type = "submit" class = "btn_delete">Delete</button>
-                        </form>
-                        <form action = "/restock/{{ p['id'] }}" method = "post" style = "margin: 0;">
-                            <button type = "submit" class = "btn_restock">Restock</button>
-                        </form>
+                        <div class="action-buttons" style="display: flex; gap: 6px; align-items: center;">
+                            <!-- Edit Button (Corrected to p['id']) -->
+                            <a href="/edit/{{ p['id'] }}" class="btn-edit">Edit</a>
+
+                            <!-- Sell Button -->
+                            {% if p['quantity'] > 0 %}
+                            <form action="/sell/{{ p['id'] }}" method="post" style="margin: 0;">
+                                <button type="submit" class="btn_sell">Sell</button>
+                            </form>
+                            {% endif %}
+
+                            <!-- Delete Button -->
+                            <form action="/delete/{{ p['id'] }}" method="post" style="margin: 0;" onsubmit="return confirm('ಖಚಿತವಾಗಿ ಅಳಿಸಬೇಕೆ?');">
+                                <button type="submit" class="btn_delete">Delete</button>
+                            </form>
                         </div>
                     </td>
-                 </tr>
-                    {% endfor %}
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
-        <!-- Recent Sales History Log Table -->
+        <!-- 4. Recent Sales History Log Table -->
         <div class="sales-history-section">
-            <h2>ಇತ್ತೀಚಿನ ಮಾರಾಟದ ಇತಿಹಾಸ (Recent Sales History)</h2>
+            <h2>(Recent Sales History)</h2>
 
             {% if recent_sales %}
             <table class="sales-table">

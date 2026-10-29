@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from database import add_product_to_db, get_all_products, sell_product , delete_product,get_sales_summary,get_recent_sales,restock_product
+from database import add_product_to_db, get_all_products, sell_product , delete_product,get_sales_summary,get_recent_sales,get_product_by_id,update_product_in_db
 from database import add_product_to_db, get_all_products
 
 app = FastAPI(title="KK Clothes Shop")
@@ -24,8 +24,6 @@ def home(request: Request, search: str = "", category: str = ""):
 
     recent_sales = get_recent_sales(limit = 10)
 
-    restock = restock_product(product_id=1, qty=5)  # Example: Restock product with ID 1 by 5 units
-
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -37,7 +35,6 @@ def home(request: Request, search: str = "", category: str = ""):
             "total_sales_count": sales_data["total_sales_count"],
             "recent_sales": recent_sales,
             "total_profit": round(sales_data["total_profit"], 2),
-            "restock": restock,  # Include the restock information in the context
             "search": search,  # Keep the search term in the search bar
             "category": category,      # Keep the selected category in the dropdown
         },
@@ -83,7 +80,38 @@ def delete(product_id: int):
     delete_product(product_id)
     return RedirectResponse(url ="/", status_code=303)
 
-@app.post("/restock/{product_id}")
-def restock_item(product_id: int):
-    restock_product(product_id, qty=1)
+# Edit product page
+@app.get("/edit/{product_id}")
+def edit_product_page(request: Request, product_id: int):
+    product = get_product_by_id(product_id)
+    if not product:
+        return RedirectResponse(url="/", status_code=303)
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="edit.html",
+        context={"product": product}
+    )
+
+
+# Update product details in the database
+@app.post("/edit/{product_id}")
+def update_product_details(
+    product_id: int,
+    item_name: str = Form(...),
+    category: str = Form(...),
+    size: str = Form(...),
+    cost_price: float = Form(...),
+    selling_price: float = Form(...),
+    quantity: int = Form(...)
+):
+    update_product_in_db(
+        product_id=product_id,
+        item_name=item_name,
+        category=category,
+        size=size,
+        cost_price=cost_price,
+        selling_price=selling_price,
+        quantity=quantity
+    )
     return RedirectResponse(url="/", status_code=303)
