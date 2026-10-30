@@ -1,8 +1,11 @@
+import csv
+import io
+from fastapi.responses import StreamingResponse
 from fastapi import FastAPI, Request, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from database import add_product_to_db, get_all_products, sell_product , delete_product,get_sales_summary,get_recent_sales,get_product_by_id,update_product_in_db
+from database import add_product_to_db, get_all_products, sell_product , delete_product,get_sales_summary,get_recent_sales,get_product_by_id,update_product_in_db,get_all_sales
 from database import add_product_to_db, get_all_products
 
 app = FastAPI(title="KK Clothes Shop")
@@ -115,3 +118,64 @@ def update_product_details(
         quantity=quantity
     )
     return RedirectResponse(url="/", status_code=303)
+
+# inventory export route
+@app.get("/export/inventory")
+def export_inventory_csv():
+    products = get_all_products()
+    
+    # create a CSV in memory
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # column headers
+    writer.writerow(["ID", "Item Name", "Category", "Size", "Cost Price (INR)", "Selling Price (INR)", "Quantity"])
+
+    # data lines
+    for p in products:
+        writer.writerow([
+            p["id"],
+            p["item_name"],
+            p["category"],
+            p["size"],
+            p["cost_price"],
+            p["selling_price"],
+            p["quantity"]
+        ])
+
+    output.seek(0)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=kk_clothes_inventory.csv"}
+    )
+
+
+@app.get("/export/sales")
+def export_sales_csv():
+    sales = get_all_sales()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # column header
+    writer.writerow(["Sale ID", "Product ID", "Item Name", "Cost Price (INR)", "Selling Price (INR)", "Profit (INR)", "Sold At"])
+
+    
+    for s in sales:
+        writer.writerow([
+            s.get("id", ""),
+            s.get("product_id", ""),
+            s.get("item_name", ""),
+            s.get("cost_price", 0.0),
+            s.get("selling_price", 0.0),
+            s.get("profit", 0.0),
+            s.get("sold_at", "")
+        ])
+
+    output.seek(0)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=kk_clothes_sales_report.csv"}
+    )

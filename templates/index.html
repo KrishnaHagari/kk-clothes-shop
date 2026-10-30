@@ -85,7 +85,10 @@
 
     <!-- 3. Current Stock & Inventory Table Card -->
     <div class="card">
-        <h3>Current Stock</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0;">Current Stock</h3>
+            <a href="/export/inventory" class="btn-export">📥 Export Inventory (CSV)</a>
+        </div>
 
         <!-- Search & Category Filter Bar -->
         <form method="get" action="/" class="filter-bar">
@@ -164,7 +167,10 @@
 
         <!-- 4. Recent Sales History Log Table -->
         <div class="sales-history-section">
-            <h2>(Recent Sales History)</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #f3f4f6; padding-bottom: 8px;">
+         <h2 style="margin: 0; font-size: 18px; color: #1f2937; border: none; padding: 0;">ಇತ್ತೀಚಿನ ಮಾರಾಟದ ಇತಿಹಾಸ (Recent Sales History)</h2>
+         <a href="/export/sales" class="btn-export">📥 Export Sales Report (CSV)</a>
+        </div>
 
             {% if recent_sales %}
             <table class="sales-table">

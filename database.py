@@ -188,5 +188,13 @@ def update_product_in_db(product_id: int, item_name: str, category: str, size: s
     conn.commit()
     conn.close()
 
+def get_all_sales():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM sales ORDER BY id DESC")
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
 # Initialize the database
 init_db()

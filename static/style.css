@@ -381,3 +381,22 @@ tr:hover {
 .btn-edit:hover {
     background-color: #d97706;
 }
+
+/* Excel/CSV Export Button */
+.btn-export {
+    display: inline-flex;
+    align-items: center;
+    background-color: #107c41; /* Microsoft Excel Iconic Green */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-export:hover {
+    background-color: #0b5c30;
+    transform: translateY(-1px);
+}
