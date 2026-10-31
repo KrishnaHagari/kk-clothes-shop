@@ -1,357 +1,350 @@
+/* ==========================================================
+   KK CLOTHES ERP - FULL RESPONSIVE MODERN STYLESHEET
+   ========================================================== */
+
 * {
-    box-sizing: border-box; /* ಪ್ಯಾಡಿಂಗ್‌ನಿಂದ ಬಾಕ್ಸ್ ಅಗಲ ಹಾಳಾಗದಂತೆ ತಡೆಯುತ್ತದೆ */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh;
-    background-color: #f0f2f5;
-    font-family: Arial, Helvetica, sans-serif;
-    flex-direction: column;
-    gap: 20px;
+    background-color: #f3f4f6;
+    color: #1f2937;
+    padding: 24px 16px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* Base Card Style */
 .card {
-    background: #ffffff;
+    background-color: #ffffff;
+    border-radius: 10px;
     padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    width: 100%;
-    max-width: 800px; /* card width 800px maadi, table neat aagi fit aagathe */
-    overflow-x: auto; /* screen chikkadaadaru table cut aagadilla */
-}
-
-th, td {
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-    white-space: nowrap; /* headings cut aagi kelagade bidade iroke */
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .card h2 {
-    margin-top: 0;
-    text-align: center;
-    color: #1a1a1a;
+    font-size: 22px;
+    color: #111827;
+    letter-spacing: -0.5px;
+}
+
+.card h3 {
+    font-size: 17px;
+    color: #374151;
+    margin-bottom: 16px;
+}
+
+.subtitle {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* ==========================================================
+   ADD STOCK FORM (Responsive Grid Layout)
+   ========================================================== */
+form[action="/add-product"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: flex-end;
 }
 
 .form-group {
-    margin-bottom: 15px; 
-}
-
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #333;
-}
-input, select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-}
-
-button {
-    width: 100%;
-    background-color: navy;
-    color: white;
-    padding: 12px;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s ease;
-}
-
-button:hover {
-    background-color: #000066;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-th, td {
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-th {
-    background-color: #f8fafc;
-    color: #475569;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-td {
-    font-size: 14px;
-    color: #1e293b;
-}
-
-tr:hover {
-    background-color: #f1f5f9;
-}
-
-/* 3 summary cards container */
-.summary-container {
     display: flex;
-    gap: 16px;
-    width: 100%;
-    max-width: 800px;
+    flex-direction: column;
 }
 
-/* each summary card */
-.summary-card {
-    flex: 1;
-    background: #ffffff;
-    padding: 16px 20px;
-    margin-top: 3px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border-left: 4px solid #2563eb;
-    background-color: blue;
-}
-
-.summary-card h4 {
-    margin: 0 0 6px 0;
-    font-size: 12px;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.summary-card p {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 700;
-    color: white;
-}
-
-.btn_sell {
-    background-color:green;
-    color:white;
-    padding: 6px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.btn_sell:hover {
-    background-color: darkgreen;
-}
-
-.badge_out {
-    display: inline-block;
-    background-color: red;
-    color: white;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 12px;
-}
-
-.badge_low {
-    display: inline-block;
-    background-color: orange;
-    color: white;
-    padding: 2px 8px;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 12px;
-    margin-left: 6px;
-    border: 1px solid #fde68a;
-}
-
-/* Sell and Delete buttons */
-.action-buttons {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-/* Delete button style */
-.btn-delete {
-    background-color: #ef4444;
-    color: #ffffff;
-    border: none;
-    padding: 6px 12px;
+.form-group label {
     font-size: 13px;
     font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    color: #4b5563;
+    margin-bottom: 6px;
 }
 
-/* mouse hover effect */
-.btn-delete:hover {
-    background-color: #dc2626;
-}
-
-/*low stock badge*/
-.badge-low {
-    display: inline-block;
-    background-color: #fef3c7;
-    color: #b45309;
-    padding: 2px 8px;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 12px;
-    margin-left: 6px;
-    border: 1px solid #fde68a;
-}
-
-.filter-bar {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-/* 2. Search Text Input Box */
-.filter-input {
-    flex: 1;
-    min-width: 220px;
-    padding: 10px 14px;
-    font-size: 14px;
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
+    font-size: 14px;
+    background-color: #f9fafb;
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.filter-input:focus {
+.form-group input:focus,
+.form-group select:focus {
     border-color: #2563eb;
+    background-color: #ffffff;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/* 3. Category Select Dropdown */
-.filter-select {
-    padding: 10px 14px;
-    font-size: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    background-color: #ffffff;
-    cursor: pointer;
-    outline: none;
-}
-
-.filter-select:focus {
-    border-color: #2563eb;
-}
-
-/* 4. Search Button (Royal Blue) */
-.btn-filter {
+button[type="submit"]:not(.btn_sell):not(.btn_delete):not(.btn_restock):not(.btn-filter) {
+    grid-column: 1 / -1;
     background-color: #2563eb;
     color: #ffffff;
     border: none;
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 12px;
+    font-size: 15px;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-.btn-filter:hover {
+button[type="submit"]:not(.btn_sell):not(.btn_delete):not(.btn_restock):not(.btn-filter):hover {
     background-color: #1d4ed8;
 }
 
-/* 5. Reset Button (Clean Secondary Action) */
-.btn-reset {
-    display: inline-block;
-    background-color: #f3f4f6;
-    color: #4b5563;
-    text-decoration: none;
-    padding: 10px 18px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    border: 1px solid #d1d5db;
-    transition: all 0.2s ease;
+/* ==========================================================
+   SUMMARY DASHBOARD CARDS
+   ========================================================== */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
 }
 
-.btn-reset:hover {
-    background-color: #e5e7eb;
+.summary-cards .card {
+    margin-bottom: 0;
+    padding: 20px;
+    border-left: 4px solid #3b82f6;
+}
+
+.summary-cards h3 {
+    font-size: 13px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.card-value {
+    font-size: 24px;
+    font-weight: 700;
     color: #111827;
 }
 
-/* Total Profit Card */
+.card-sales {
+    border-left-color: #8b5cf6 !important;
+}
+
 .card-profit {
-    border-top: 4px solid #10b981;
-    background: linear-gradient(to bottom, #f0fdf4, #ffffff);
+    border-left-color: #10b981 !important;
 }
 
 .card-profit .card-value {
-    color: #047857;
+    color: #059669;
 }
 
-.card-sales {
-    border-top: 4px solid #3b82f6;
+/* ==========================================================
+   SEARCH & FILTER BAR
+   ========================================================== */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-.card-sales .card-value {
-    color: #1d4ed8;
-}
-
-/* Sales History Container */
-.sales-history-section {
-    margin-top: 40px;
-    background-color: #ffffff;
-    padding: 24px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.sales-history-section h2 {
-    font-size: 18px;
-    color: #1f2937;
-    margin-bottom: 16px;
-    border-bottom: 2px solid #f3f4f6;
-    padding-bottom: 8px;
-}
-
-/* Sales Table Specifics */
-.sales-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.sales-table th, .sales-table td {
-    padding: 12px 14px;
-    text-align: left;
-    border-bottom: 1px solid #e5e7eb;
+.filter-input {
+    flex: 1 1 240px;
+    padding: 9px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
     font-size: 14px;
 }
 
-.sales-table th {
+.filter-select {
+    flex: 0 1 180px;
+    padding: 9px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #ffffff;
+}
+
+.btn-filter {
+    background-color: #4b5563;
+    color: #ffffff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-filter:hover {
+    background-color: #374151;
+}
+
+.btn-reset {
+    display: inline-flex;
+    align-items: center;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 9px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #ffffff;
+}
+
+.btn-reset:hover {
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+/* ==========================================================
+   TABLES & RESPONSIVE SCROLL
+   ========================================================== */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    min-width: 720px; 
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+th, td {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+th {
     background-color: #f9fafb;
     color: #4b5563;
     font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
-/* Profit Green Badge Text */
+tr:hover td {
+    background-color: #fcfdfe;
+}
+
+/* Action Badges & Buttons */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.btn-edit {
+    background-color: #f59e0b;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+}
+
+.btn-edit:hover {
+    opacity: 0.9;
+}
+
+.btn_restock {
+    background-color: #0284c7;
+    color: #ffffff;
+    border: none;
+    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn_sell {
+    background-color: #10b981;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn_delete {
+    background-color: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.badge_low {
+    background-color: #fef3c7;
+    color: #b45309;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+}
+
+.badge_out {
+    background-color: #fee2e2;
+    color: #991b1b;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+/* ==========================================================
+   EXPORT BUTTONS & SALES HISTORY
+   ========================================================== */
+.btn-export {
+    display: inline-flex;
+    align-items: center;
+    background-color: #107c41;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-export:hover {
+    background-color: #0b5c30;
+}
+
+.sales-history-section {
+    margin-top: 36px;
+}
+
 .profit-highlight {
     color: #059669;
     font-weight: 700;
 }
 
-/* Sale Timestamp */
 .sale-date {
     color: #6b7280;
     font-size: 12px;
@@ -360,43 +353,56 @@ tr:hover {
 .no-sales {
     color: #9ca3af;
     font-style: italic;
-    padding: 12px 0;
+    padding: 16px 0;
 }
 
+/* ==========================================================
+   MOBILE & TABLET MEDIA QUERIES (@media) 
+   ==========================================================  */
+@media (max-width: 768px) {
+    body {
+        padding: 14px 10px;
+    }
 
-/* Edit Button Style */
-.btn-edit {
-    display: inline-block;
-    background-color: #f59e0b;
-    color: #ffffff;
-    text-decoration: none;
-    padding: 6px 10px;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 4px;
-    margin-right: 4px;
-    transition: background-color 0.2s ease;
+    .card {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .summary-cards .card {
+        padding: 14px;
+    }
+
+    .card-value {
+        font-size: 20px;
+    }
+
+    form[action="/add-product"] {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+    }
+
+    .filter-input, .filter-select, .btn-filter, .btn-reset {
+        width: 100%;
+        flex: auto;
+    }
+
+    .btn-export {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
 }
 
-.btn-edit:hover {
-    background-color: #d97706;
-}
-
-/* Excel/CSV Export Button */
-.btn-export {
-    display: inline-flex;
-    align-items: center;
-    background-color: #107c41; /* Microsoft Excel Iconic Green */
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 6px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.btn-export:hover {
-    background-color: #0b5c30;
-    transform: translateY(-1px);
+@media (max-width: 480px) {
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
 }

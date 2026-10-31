@@ -110,7 +110,7 @@
             <button type="submit" class="btn-filter">Search</button>
             <a href="/" class="btn-reset">Reset</a>
         </form>
-
+        <div class="table_responsive">
         <!-- Inventory Table -->
         <table>
             <thead>
@@ -155,7 +155,7 @@
                             {% endif %}
 
                             <!-- Delete Button -->
-                            <form action="/delete/{{ p['id'] }}" method="post" style="margin: 0;" onsubmit="return confirm('ಖಚಿತವಾಗಿ ಅಳಿಸಬೇಕೆ?');">
+                            <form action="/delete/{{ p['id'] }}" method="post" style="margin: 0;" onsubmit="return confirm('Are you sure?');">
                                 <button type="submit" class="btn_delete">Delete</button>
                             </form>
                         </div>
@@ -164,6 +164,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
 
         <!-- 4. Recent Sales History Log Table -->
         <div class="sales-history-section">
@@ -173,6 +174,7 @@
         </div>
 
             {% if recent_sales %}
+            <div class="table_responsive">
             <table class="sales-table">
                 <thead>
                     <tr>
@@ -195,6 +197,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
             {% else %}
             <p class="no-sales">No sales recorded yet.</p>
             {% endif %}
